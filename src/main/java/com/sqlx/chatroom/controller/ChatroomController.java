@@ -32,7 +32,7 @@ public class ChatroomController {
     }
 
     @PostMapping("/chatrooms")
-    public Result addUser(@RequestBody Chatroom chatroom) {
+    public Result addChatroom(@RequestBody Chatroom chatroom) {
         log.info("新增聊天室：{}", chatroom);
         return chatroomService.addChatroom(chatroom);
     }
