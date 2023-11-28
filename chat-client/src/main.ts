@@ -35,6 +35,8 @@ Vue.use(Viewer, {
   },
 });
 
+
+
 new Vue({
   router,
   store,
