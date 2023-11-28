@@ -1,7 +1,7 @@
 export interface ChatState {
   socket: SocketIOClient.Socket;
-  dropped: boolean;
-  activeGroupUser: ActiveGroupUser;
+  dropped: boolean;  // 链接是否断开
+  activeGroupUser: ActiveGroupUser;  //群在线人数
   activeRoom: (Group & Friend) | null;
   groupGather: GroupGather;
   userGather: FriendGather;
