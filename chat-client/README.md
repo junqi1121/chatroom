@@ -1,4 +1,14 @@
-# genal-chat-client
+# chat-client
+
+
+
+## debug and run
+```
+npm install
+
+npm run serve
+```
+
 
 ## Project setup
 ```
