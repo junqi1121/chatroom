@@ -1,6 +1,9 @@
 # chat-client
 
 
+## dependcy
+
+node v10.16.3
 
 ## debug and run
 ```
@@ -8,7 +11,7 @@ npm install
 
 npm run serve
 ```
-
+ 
 
 ## Project setup
 ```
