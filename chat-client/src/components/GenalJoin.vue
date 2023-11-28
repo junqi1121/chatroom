@@ -78,6 +78,7 @@ export default class GenalJoin extends Vue {
         if (this.type === 'register') {
           user.createTime = new Date().valueOf();
         }
+
         // @ts-ignore
         delete user.remember;
 
@@ -89,6 +90,7 @@ export default class GenalJoin extends Vue {
     });
   }
 }
+
 
 </script>
 

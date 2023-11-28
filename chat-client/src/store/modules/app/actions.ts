@@ -28,10 +28,6 @@ const actions: ActionTree<AppState, RootState> = {
       commit(SET_TOKEN, data.token);
       return data;
     }
-    // 否则打印错误信息到控制台
-    else {
-      console.log(data);
-    }
   },
 };
 
