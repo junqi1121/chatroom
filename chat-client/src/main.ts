@@ -6,8 +6,8 @@ import Viewer from 'v-viewer';
 
 Vue.config.productionTip = false;
 
-// 引入ant-desigin
-import './ant-desigin';
+// 引入ant-desgin
+import './ant-desgin';
 
 // 引入moment
 import moment from 'moment';
