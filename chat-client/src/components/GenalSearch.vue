@@ -125,6 +125,7 @@ export default class GenalSearch extends Vue {
 
   handleSearch(value: string) {
     let mySearchData = [];
+    // "..." 是扩展运算符，用于取出参数对象的所有可遍历属性，拷贝到当前对象之中
     this.searchData = [...Object.values(this.groupGather), ...Object.values(this.friendGather)];
     for (let chat of this.searchData) {
       // @ts-ignore

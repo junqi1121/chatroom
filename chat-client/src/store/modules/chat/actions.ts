@@ -56,6 +56,7 @@ const actions: ActionTree<ChatState, RootState> = {
       commit(SET_GROUP_GATHER, res.data);
     });
 
+    
     socket.on('joinGroup', async (res: ServerRes) => {
       console.log('on joinGroup', res);
       if (res.code) {

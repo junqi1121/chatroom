@@ -76,18 +76,20 @@ export default class GenalJoin extends Vue {
     console.log(this.form);
     this.form.validateFields((err: any, user: User) => {
       console.log(user);
+
       if (!err) {
         if (this.type === 'register') {
           user.createTime = new Date().valueOf();
         }
-
         // @ts-ignore
         delete user.remember;
-
         if (!nameVerify(user.username)) {
           return;
         }
         this.$emit(this.type, user);
+      }
+      else  {
+        console.log(err);
       }
     });
   }

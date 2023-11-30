@@ -6,6 +6,15 @@ import Viewer from 'v-viewer';
 
 Vue.config.productionTip = false;
 
+
+// mock模拟数据，进行前端调试
+
+import Mock from 'mockjs';
+import './mock/login';  // 引入 Mock 登录接口
+import './mock/data';  // 引入 Mock 数据接口
+
+
+
 // 引入ant-design
 import './ant-design';
 
@@ -42,3 +51,7 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+
+
+

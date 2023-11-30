@@ -37,6 +37,7 @@ const mutations: MutationTree<ChatState> = {
     let userGather = state.userGather;
     for (let user of Object.values(payload[DEFAULT_GROUP])) {
       // 如果当前userGather没有该在线用户, 应该马上存储, 不然该在线用户发消息, 就看不见他的信息
+      // 向userGather中添加一个属性（在线用户） 属性名为该用户的id，属性值为该用户的信息
       Vue.set(userGather, user.userId, user);
     }
   },

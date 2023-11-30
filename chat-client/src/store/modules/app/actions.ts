@@ -18,11 +18,12 @@ const actions: ActionTree<AppState, RootState> = {
     }
   },
   async login({ commit }, payload) {
-    let res = await fetch.post('/auth/login', {
+    console.log('----login-----');
+    let res = await fetch.post('/login', {
       ...payload,
     });
     let data = processReturn(res);
-
+    console.log(data)
     if (data) {
       commit(SET_USER, data.user);
       commit(SET_TOKEN, data.token);
