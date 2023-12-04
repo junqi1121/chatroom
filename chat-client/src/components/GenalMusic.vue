@@ -29,3 +29,4 @@ export default class GenalMusic extends Vue {
   top: 1%;
 }
 </style>
+<!-- 此文件好像没有什么用处，全被注释掉了 -->

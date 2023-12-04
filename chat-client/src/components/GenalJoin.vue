@@ -73,7 +73,6 @@ export default class GenalJoin extends Vue {
     console.log('handleSubmit!!!!');
     e.preventDefault();
 
-    console.log(this.form);
     this.form.validateFields((err: any, user: User) => {
       console.log(user);
 

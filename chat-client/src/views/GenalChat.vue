@@ -13,6 +13,7 @@
       <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </genal-search>
       <genal-room @setActiveRoom="setActiveRoom"></genal-room>
     </div>
+    
     <div class="chat-part3">
       <a-icon class="chat-team" type="message" @click="toggleDrawer" />
       <div class="chat-tool">
@@ -149,10 +150,12 @@ export default class GenalChat extends Vue {
     this.$router.go(0);
   }
 
+  // 控制抽屉组件的显示与隐藏
   toggleDrawer() {
     this.visibleDrawer = !this.visibleDrawer;
   }
 
+  // 控制工具栏的显示与隐藏
   toggleTool() {
     this.visibleTool = !this.visibleTool;
   }

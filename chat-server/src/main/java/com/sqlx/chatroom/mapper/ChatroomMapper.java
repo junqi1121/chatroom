@@ -28,7 +28,7 @@ public interface ChatroomMapper {
     @Insert("insert into chatroom_user_info (User_ID, Room_ID) values (#{userId},#{roomId})")
     void insertMember(Integer roomId, Integer userId);
 
-    @Delete("delete from chatroom_user_info where Room_ID = #{roomId}, #{userId}")
+    @Delete("delete from chatroom_user_info where Room_ID = #{roomId} and User_ID = #{userId}")
     void deleteMember(Integer userId, Integer roomId);
 
 }
