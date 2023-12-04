@@ -13,6 +13,7 @@
       <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </genal-search>
       <genal-room @setActiveRoom="setActiveRoom"></genal-room>
     </div>
+    
     <div class="chat-part3">
       <a-icon class="chat-team" type="message" @click="toggleDrawer" />
       <div class="chat-tool">
@@ -21,6 +22,8 @@
       </div>
       <genal-message v-if="activeRoom"></genal-message>
     </div>
+    
+        <!-- 一个基于 Ant Design Vue 组件库提供的抽屉组件 -->
     <a-drawer placement="left" :closable="false" :visible="visibleDrawer" @close="toggleDrawer" style="height:100%">
       <div class="chat-drawer">
         <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </genal-search>
@@ -73,8 +76,10 @@ export default class GenalChat extends Vue {
 
   created() {
     if (!this.user.userId) {
+      // 未登录,弹出登录框
       this.showModal = true;
     } else {
+      // 已登录,进入系统
       this.handleJoin();
     }
   }
@@ -103,8 +108,12 @@ export default class GenalChat extends Vue {
     this.connectSocket();
   }
 
+
   // 创建群组
   addGroup(groupName: string) {
+    // 发送创建群组事件
+    // 服务器处理
+
     this.socket.emit('addGroup', {
       userId: this.user.userId,
       groupName: groupName,
@@ -141,10 +150,12 @@ export default class GenalChat extends Vue {
     this.$router.go(0);
   }
 
+  // 控制抽屉组件的显示与隐藏
   toggleDrawer() {
     this.visibleDrawer = !this.visibleDrawer;
   }
 
+  // 控制工具栏的显示与隐藏
   toggleTool() {
     this.visibleTool = !this.visibleTool;
   }

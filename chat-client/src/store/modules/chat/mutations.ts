@@ -36,7 +36,8 @@ const mutations: MutationTree<ChatState> = {
     state.activeGroupUser = payload;
     let userGather = state.userGather;
     for (let user of Object.values(payload[DEFAULT_GROUP])) {
-      // 如果当前userGather没有该在线用户, 应该马上存储, 不然该在下雨用户发消息, 就看不见他的信息
+      // 如果当前userGather没有该在线用户, 应该马上存储, 不然该在线用户发消息, 就看不见他的信息
+      // 向userGather中添加一个属性（在线用户） 属性名为该用户的id，属性值为该用户的信息
       Vue.set(userGather, user.userId, user);
     }
   },
@@ -44,6 +45,8 @@ const mutations: MutationTree<ChatState> = {
   // 新增一条群消息
   [ADD_GROUP_MESSAGE](state, payload: GroupMessage) {
     if (state.groupGather[payload.groupId].messages) {
+      // 如果群消息的列表已经存在, 直接push
+      // 这里的‘！’是告诉ts, 这个属性（payload)一定存在, 不然会报错
       state.groupGather[payload.groupId].messages!.push(payload);
     } else {
       // vuex对象数组中对象改变不更新问题

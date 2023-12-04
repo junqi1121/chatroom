@@ -41,6 +41,7 @@ const actions: ActionTree<ChatState, RootState> = {
     });
 
     // 初始化事件监听
+    // 下面这些事件是后端返回的一些事件。
     socket.on('activeGroupUser', (data: any) => {
       console.log('activeGroupUser', data);
       commit(SET_ACTIVE_GROUP_USER, data.data);
@@ -55,6 +56,7 @@ const actions: ActionTree<ChatState, RootState> = {
       commit(SET_GROUP_GATHER, res.data);
     });
 
+    
     socket.on('joinGroup', async (res: ServerRes) => {
       console.log('on joinGroup', res);
       if (res.code) {
@@ -193,9 +195,17 @@ const actions: ActionTree<ChatState, RootState> = {
   },
 
   async handleChatData({ commit, dispatch, state, rootState }, payload) {
+
+    // commit: vue的commit方法，用于触发mutations
+    // dispatch: vue的dispatch方法，用于触发actions
+    // state：当前模块的state
+    // rootState: 根模块的state
+    // payload: 从服务器获取的聊天室所需的所有数据
+
     let user = rootState.app.user;
     let socket = state.socket;
     let groupGather = state.groupGather;
+
     let groupArr = payload.groupData;
     let friendArr = payload.friendData;
     let userArr = payload.userData;
@@ -234,7 +244,7 @@ const actions: ActionTree<ChatState, RootState> = {
     let groupGather2 = state.groupGather;
     let friendGather2 = state.friendGather;
     if (!activeRoom) {
-      // 更新完数据没有默认activeRoom设置群为'阿童木聊天室'
+      // 更新完数据没有默认activeRoom设置群为'在线聊天室'
       return commit(SET_ACTIVE_ROOM, groupGather[DEFAULT_GROUP]);
     }
     commit(SET_ACTIVE_ROOM, groupGather2[activeRoom.groupId] || friendGather2[activeRoom.userId]);

@@ -6,8 +6,17 @@ import Viewer from 'v-viewer';
 
 Vue.config.productionTip = false;
 
-// 引入ant-desigin
-import './ant-desigin';
+
+// mock模拟数据，进行前端调试
+
+// import Mock from 'mockjs';
+// import './mock/login';  // 引入 Mock 登录接口
+// import './mock/data';  // 引入 Mock 数据接口
+
+
+
+// 引入ant-design
+import './ant-design';
 
 // 引入moment
 import moment from 'moment';
@@ -35,8 +44,14 @@ Vue.use(Viewer, {
   },
 });
 
+
+
 new Vue({
   router,
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+
+
+
