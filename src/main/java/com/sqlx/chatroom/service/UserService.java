@@ -13,4 +13,6 @@ public interface UserService {
     Result addUser(User user);
 
     Result selectUserByRoomId(Integer roomId);
+
+    Result confirmUSer(String userName, String userPwd);
 }

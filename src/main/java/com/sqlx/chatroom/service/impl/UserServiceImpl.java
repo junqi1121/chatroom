@@ -6,10 +6,12 @@ import com.sqlx.chatroom.pojo.User;
 import com.sqlx.chatroom.pojo.UserState;
 import com.sqlx.chatroom.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Objects;
 
 
 //用户管理业务实现类
@@ -42,9 +44,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result addUser(User user) {
         try {
-            user.setUserState(UserState.ONLINE);
-            userMapper.insertUser(user);
-            return Result.success();
+            if(userMapper.selectUserByName(user.getUserName()).isEmpty()){
+                user.setUserState(UserState.ONLINE);
+                userMapper.insertUser(user);
+                return Result.success();
+            }else {
+                return Result.error("用户名已存在");
+            }
         } catch (Exception e) {
             return Result.error("error");
         }
@@ -57,6 +63,20 @@ public class UserServiceImpl implements UserService {
             return Result.success(userList);
         } catch (Exception e) {
             return Result.error("error");
+        }
+    }
+
+    @Override
+    public Result confirmUSer(String userName, String userPwd){
+        try {
+            List<User> aimUser = userMapper.selectUserByName(userName);
+            if(Objects.equals(aimUser.get(0).getUserPwd(), userPwd)){
+                return Result.success();
+            }else {
+                return Result.error("密码错误或与id不匹配");
+            }
+        } catch (Exception e) {
+            return Result.error("该用户不存在！");
         }
     }
 }

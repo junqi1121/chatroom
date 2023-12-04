@@ -43,4 +43,10 @@ public class UserController {
         return userService.addUser(user);
     }
 
+    @GetMapping("/users/confirm/{userName}/{userPwd}")
+    public Result confirmUser(@PathVariable("userName") String name, @PathVariable("userPwd") String pwd){
+        log.info("根据roomId查询用户数据");
+        return userService.confirmUSer(name, pwd);
+    }
+
 }

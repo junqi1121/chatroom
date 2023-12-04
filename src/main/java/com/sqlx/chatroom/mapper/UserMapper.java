@@ -16,6 +16,9 @@ public interface UserMapper {
     @Select("select User_ID, User_Name, User_State, User_Pwd from user where User_ID = #{id}")
     User selectUserById(Integer id);
 
+    @Select("select User_ID, User_Name, User_State, User_Pwd from user where User_Name = #{name}")
+    List<User> selectUserByName(String name);
+
     @Select("select User_ID, User_Name, User_State, User_Pwd " +
             "from chatroom_user_info natural join user " +
             "where Room_ID = #{roomId}")
