@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
             if(userMapper.selectUserByName(user.getUserName()).isEmpty()){
                 user.setUserState(UserState.ONLINE);
                 userMapper.insertUser(user);
-                return Result.success();
+                return Result.success(user);
             }else {
                 return Result.error("用户名已存在");
             }
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         try {
             List<User> aimUser = userMapper.selectUserByName(userName);
             if(Objects.equals(aimUser.get(0).getUserPwd(), userPwd)){
-                return Result.success();
+                return Result.success(aimUser.get(0));
             }else {
                 return Result.error("密码错误或与id不匹配");
             }
