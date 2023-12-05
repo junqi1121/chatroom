@@ -3,16 +3,17 @@ import { AxiosResponse } from 'axios';
 
 // 处理所有后端返回的数据
 export function processReturn(res: AxiosResponse<ServerRes>) {
-  // code 0:成功 1:错误 2:后端报错
+  // code 0:失败 1:成功 2:后端报错
   let { code, msg, data } = res.data;
-  console.log("processReturn", res.data);
-  if (code) {
+  console.log("processReturn  data", res.data, code, msg, data);
+  if (!code) {
     Vue.prototype.$message.error(msg);
     return;
   }
   if (msg) {
     Vue.prototype.$message.success(msg);
   }
+
   return data;
 }
 
