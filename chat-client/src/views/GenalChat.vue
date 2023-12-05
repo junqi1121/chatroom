@@ -87,7 +87,7 @@ export default class GenalChat extends Vue {
   // 登录
   async handleLogin(user: User) {
     let res = await this.login(user);
-    if (res) {
+    if (res.code) {
       // 进入系统事件
       this.handleJoin();
     }
@@ -96,6 +96,7 @@ export default class GenalChat extends Vue {
   // 注册
   async handleRegister(user: User) {
     let res = await this.register(user);
+    console.log('res', res);
     if (res) {
       // 进入系统事件
       this.handleJoin();

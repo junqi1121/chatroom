@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios';
 export function processReturn(res: AxiosResponse<ServerRes>) {
   // code 0:失败 1:成功 2:后端报错
   let { code, msg, data } = res.data;
-  console.log("processReturn", res.data);
+  console.log("processReturn  data", res.data, code, msg, data);
   if (!code) {
     Vue.prototype.$message.error(msg);
     return;
@@ -13,6 +13,7 @@ export function processReturn(res: AxiosResponse<ServerRes>) {
   if (msg) {
     Vue.prototype.$message.success(msg);
   }
+
   return data;
 }
 

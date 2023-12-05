@@ -12,6 +12,7 @@ const actions: ActionTree<AppState, RootState> = {
       userPwd: payload.password,  // 同上
       userState: 'OFFLINE'
     });
+    console.log("----register  res-----", res);
     let data = processReturn(res);
     if (data) {
       commit(SET_USER, data.user);
@@ -21,9 +22,10 @@ const actions: ActionTree<AppState, RootState> = {
   },
   async login({ commit }, payload) {
     console.log('----login-----');
-    let res = await fetch.post('/login', {
-      ...payload,
-    });
+    //     const { userName, userPwd } = payload;
+    let userName = payload.username;
+    let userPwd = payload.password;
+    let res = await fetch.get(`http://localhost:8080/users/confirm/${userName}/${userPwd}`);
     let data = processReturn(res);
     console.log(data)
     if (data) {
