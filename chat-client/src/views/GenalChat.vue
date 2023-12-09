@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts">
+import fetch from '@/api/fetch';
 import { Component, Vue } from 'vue-property-decorator';
 import GenalTool from '@/components/GenalTool.vue';
 import GenalJoin from '@/components/GenalJoin.vue';
@@ -61,6 +62,9 @@ export default class GenalChat extends Vue {
   @appModule.Action('login') login: Function;
   @appModule.Action('register') register: Function;
   @appModule.Getter('background') background: string;
+
+
+
 
   @chatModule.Getter('socket') socket: SocketIOClient.Socket;
   @chatModule.Getter('userGather') userGather: FriendGather;
@@ -116,15 +120,22 @@ export default class GenalChat extends Vue {
 
 
   // 创建群组
-  addGroup(groupName: string) {
+  async addGroup(groupName: string) {
     // 发送创建群组事件
     // 服务器处理
 
-    this.socket.emit('addGroup', {
-      userId: this.user.userId,
-      groupName: groupName,
-      createTime: new Date().valueOf(),
+    // this.socket.emit('addGroup', {
+    //   userId: this.user.userId,
+    //   groupName: groupName,
+    //   createTime: new Date().valueOf(),
+    // });
+    let res = await fetch.post('http://localhost:8080/chatrooms', {
+      roomId: null,
+      creatorId: this.user.userId,
+      roomName: groupName,
+
     });
+    console.log('add Group res', res);
   }
 
   // 加入群组
@@ -166,6 +177,9 @@ export default class GenalChat extends Vue {
     this.visibleTool = !this.visibleTool;
   }
 }
+
+
+
 </script>
 <style lang="scss" scoped>
 .chat {

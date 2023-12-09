@@ -35,6 +35,10 @@ const actions: ActionTree<AppState, RootState> = {
       return data;
     }
   },
+  // async addgroup({ commit }, payload) {
+  //   console.log('----addgroup-----');
+  //   let res = await fetch.post('http://localhost:8080//chatrooms', {
+  //     creatorId: payload.user
 };
 
 export default actions;

@@ -41,7 +41,7 @@ const actions: ActionTree<ChatState, RootState> = {
 
     let socket: SocketIOClient.Socket = io.connect(`ws://localhost:8080`, {
       path: '/ws',
-      reconnection: true
+      reconnection: false
     });
 
 
