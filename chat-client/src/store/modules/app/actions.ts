@@ -28,9 +28,10 @@ const actions: ActionTree<AppState, RootState> = {
     let res = await fetch.get(`http://localhost:8080/users/confirm/${userName}/${userPwd}`);
     let data = processReturn(res);
     console.log(data)
+    console.log("user", data.user);
     if (data) {
-      commit(SET_USER, data.user);
-      commit(SET_TOKEN, data.token);
+      commit(SET_USER, data);
+      // commit(SET_TOKEN, data.token);
       return data;
     }
   },

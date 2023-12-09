@@ -12,8 +12,7 @@
     <div class="chat-part2">
       <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </genal-search>
       <genal-room @setActiveRoom="setActiveRoom"></genal-room>
-    </div>
-    
+                      </div>
     <div class="chat-part3">
       <a-icon class="chat-team" type="message" @click="toggleDrawer" />
       <div class="chat-tool">
@@ -75,6 +74,8 @@ export default class GenalChat extends Vue {
   visibleTool: boolean = true;
 
   created() {
+    console.log('GenalChat created');
+    this.showModal = true;
     if (!this.user.userId) {
       // 未登录,弹出登录框
       this.showModal = true;
@@ -87,7 +88,9 @@ export default class GenalChat extends Vue {
   // 登录
   async handleLogin(user: User) {
     let res = await this.login(user);
-    if (res.code) {
+    console.log('res', res.code);
+    if (res) {
+      console.log('登录成功');
       // 进入系统事件
       this.handleJoin();
     }
@@ -98,6 +101,7 @@ export default class GenalChat extends Vue {
     let res = await this.register(user);
     console.log('res', res);
     if (res) {
+      console.log('注册成功');
       // 进入系统事件
       this.handleJoin();
     }
@@ -105,6 +109,7 @@ export default class GenalChat extends Vue {
 
   // 进入系统初始化事件
   async handleJoin() {
+    console.log('进入系统初始化事件');
     this.showModal = false;
     this.connectSocket();
   }

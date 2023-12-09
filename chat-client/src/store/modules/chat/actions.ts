@@ -26,9 +26,30 @@ import { DEFAULT_GROUP } from '@/const/index';
 const actions: ActionTree<ChatState, RootState> = {
   // 初始化socket连接和监听socket事件
   async connectSocket({ commit, state, dispatch, rootState }, callback) {
-    let user = rootState.app.user;
+    console.log('----connectSocket----');
+    console.log("commit", commit);
+    console.log('state', state);
+    console.log('dispatch', dispatch);
+    console.log('rootState', rootState);
+    console.log('callback', callback);
 
-    let socket: SocketIOClient.Socket = io.connect(`/?userId=${user.userId}`, { reconnection: true });
+
+    let user = rootState.app.user;
+    console.log('user', user);
+    // let socket: SocketIOClient.Socket = io.connect(`/?userId=${user.userId}`, { reconnection: true });
+    // let socket: SocketIOClient.Socket = io.connect(`http://localhost:8080/ws/?userId=${user.userId}`, { reconnection: true });
+
+    let socket: SocketIOClient.Socket = io.connect(`ws://localhost:8080`, {
+      path: '/ws',
+      reconnection: true
+    });
+
+
+
+    //输出一下connect连接成功与否
+    console.log('socket', socket);
+
+
 
     socket.on('connect', async () => {
       console.log('连接成功');
