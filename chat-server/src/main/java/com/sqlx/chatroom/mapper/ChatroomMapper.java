@@ -1,5 +1,4 @@
 package com.sqlx.chatroom.mapper;
-import com.sqlx.chatroom.pojo.User;
 import org.apache.ibatis.annotations.*;
 import com.sqlx.chatroom.pojo.Chatroom;
 
@@ -12,7 +11,13 @@ public interface ChatroomMapper {
     List<Chatroom> selectAllRoom();
 
     @Select("select Room_ID, Room_Name, Creator_ID from chatroom where Room_ID = #{id}")
-    Chatroom selectChatroomById(Integer id);
+    Chatroom selectChatroomByRoomId(Integer id);
+
+    @Select("select chatroom.Room_ID, chatroom.Room_Name, chatroom.Creator_ID " +
+            "from chatroom_user_info natural join chatroom " +
+            "where chatroom_user_info.User_ID = #{id} and " +
+            "chatroom_user_info.Room_ID = chatroom.Room_ID")
+    List<Chatroom> selectJoinedChatroomByUserId(Integer id);
 
 //    @Select("select User_ID, User_Name, User_State, User_Pwd " +
 //            "from chatroom_user_info natural join user " +
