@@ -99,9 +99,14 @@ const mutations: MutationTree<ChatState> = {
   },
 
   // 设置所有的群的群详细信息(头像,群名字等)
-  [SET_GROUP_GATHER](state, payload: Group) {
-    Vue.set(state.groupGather, payload.groupId, payload);
+  // [SET_GROUP_GATHER](state, payload: Group) {
+  //   Vue.set(state.groupGather, payload.groupId, payload);
+  // },
+
+  [SET_GROUP_GATHER](state, payload: GroupGather) {
+    state.groupGather = payload;
   },
+
 
   // 设置所有的用户的用户详细信息(头像,昵称等)
   [SET_USER_GATHER](state, payload: User) {

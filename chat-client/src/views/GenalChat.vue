@@ -9,6 +9,7 @@
     <div class="chat-part1" v-if="visibleTool">
       <genal-tool @logout="logout"></genal-tool>
     </div>
+    
     <div class="chat-part2">
       <genal-search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </genal-search>
       <genal-room @setActiveRoom="setActiveRoom"></genal-room>
@@ -46,6 +47,8 @@ import { namespace } from 'vuex-class';
 const appModule = namespace('app');
 const chatModule = namespace('chat');
 
+import { processReturn } from '@/utils/common.ts';
+
 @Component({
   components: {
     GenalTool,
@@ -72,6 +75,8 @@ export default class GenalChat extends Vue {
   @chatModule.Getter('activeRoom') activeRoom: Friend & Group;
   @chatModule.Mutation('set_active_room') _setActiveRoom: Function;
   @chatModule.Action('connectSocket') connectSocket: Function;
+
+
 
   showModal: boolean = false;
   visibleDrawer: boolean = false;
@@ -115,7 +120,34 @@ export default class GenalChat extends Vue {
   async handleJoin() {
     console.log('进入系统初始化事件');
     this.showModal = false;
-    this.connectSocket();
+    // this.connectSocket();
+    // 获取加入的群组列表
+    let userId = this.user.userId;
+    let res = await fetch.get(`http://localhost:8080/chatrooms/ByUserId/${userId}`);
+    console.log('获取群组列表  ------  res', res);
+    let data = processReturn(res);
+    // 依据datae的数据结构，将data转换为groupGather
+    let groupGather: GroupGather = {};
+    console.log('handle Join  ----data', data);
+    // 一个data的结构的例子
+    //     // data:Array(2)
+    //     0 :
+    //     { roomId: 4, creatorId: 1, roomName: '聊天室测试1' }
+    //     1 :
+    //     { roomId: 5, creatorId: 1, roomName: '聊天室测试2' }
+    for (let i = 0; i < data.length; i++) {
+      let group: Group = {
+        groupId: data[i].roomId,
+        userId: data[i].creatorId,
+        groupName: data[i].roomName,
+      }
+      groupGather[group.groupId] = group;
+    }
+
+    console.log('groupGather', groupGather);
+    this.$store.commit('chat/set_group_gather', groupGather);
+    //输出一下state中的groupGather，看看是否正确
+    console.log('this.$store.state.chat.groupGather', this.$store.state.chat.groupGather);
   }
 
 
@@ -136,6 +168,7 @@ export default class GenalChat extends Vue {
 
     });
     console.log('add Group res', res);
+
   }
 
   // 加入群组

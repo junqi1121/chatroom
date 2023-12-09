@@ -84,6 +84,8 @@ export default class GenalRoom extends Vue {
   sortChat() {
     this.chatArr = [];
     let groups = Object.values(this.groupGather);
+    console.log('sort chat-----groups   this.groupGather', this.groupGather);
+    console.log('sort chat-----groups', groups);
     let friends = Object.values(this.friendGather);
     this.chatArr = [...groups, ...friends];
     // 对聊天窗进行排序(根据最新消息时间)
