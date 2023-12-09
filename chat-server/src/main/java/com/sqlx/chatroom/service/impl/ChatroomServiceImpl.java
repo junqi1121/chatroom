@@ -35,6 +35,18 @@ public class ChatroomServiceImpl implements ChatroomService {
         }
     }
 
+    public Result selectChatroomByName(String name){
+        try {
+            List<Chatroom> aimRooms = chatroomMapper.selectChatroomByRoomName(name);
+            if(aimRooms.isEmpty()){
+                return Result.error("没有与此名称匹配的聊天室");
+            }
+            return Result.success(aimRooms);
+        } catch (Exception e) {
+            return Result.error("error");
+        }
+    }
+
     public Result selectJoinedChatroomByUserId(Integer id){
         try {
             List<Chatroom>  aimRooms =  chatroomMapper.selectJoinedChatroomByUserId(id);

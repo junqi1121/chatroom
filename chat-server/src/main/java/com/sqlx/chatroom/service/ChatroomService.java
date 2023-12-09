@@ -11,6 +11,8 @@ public interface ChatroomService {
 
     Result selectChatroomById(Integer id);
 
+    Result selectChatroomByName(String name);
+
     Result selectJoinedChatroomByUserId(Integer id);
 
     Result addChatroom(Chatroom chatroom);

@@ -13,6 +13,9 @@ public interface ChatroomMapper {
     @Select("select Room_ID, Room_Name, Creator_ID from chatroom where Room_ID = #{id}")
     Chatroom selectChatroomByRoomId(Integer id);
 
+    @Select("select Room_ID, Room_Name, Creator_ID from chatroom where Room_Name = #{name}")
+    List<Chatroom> selectChatroomByRoomName(String name);
+
     @Select("select chatroom.Room_ID, chatroom.Room_Name, chatroom.Creator_ID " +
             "from chatroom_user_info natural join chatroom " +
             "where chatroom_user_info.User_ID = #{id} and " +

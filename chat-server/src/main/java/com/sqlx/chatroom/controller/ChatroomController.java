@@ -31,6 +31,12 @@ public class ChatroomController {
         return chatroomService.selectChatroomById(roomId);
     }
 
+    @GetMapping("/chatrooms/ByRoomName/{roomName}")
+    public Result listAllChatroomByRoomName(@PathVariable("roomName") String name) {
+        log.info("根据roomName查询特定聊天室");
+        return chatroomService.selectChatroomByName(name);
+    }
+
     @GetMapping("/chatrooms/ByUserId/{userId}")
     public Result listAllChatroomByUserId(@PathVariable("userId") Integer userId) {
         log.info("根据userId查询其参与的聊天室");
