@@ -40,6 +40,8 @@ public class ChatroomServiceImpl implements ChatroomService {
     public Result addChatroom(Chatroom chatroom) {
         try {
             chatroomMapper.insertChatroom(chatroom);
+            chatroomMapper.insertMember(chatroom.getRoomId(),chatroom.getCreatorId());
+            chatroomMapper.insertAdmin(chatroom.getRoomId(),chatroom.getCreatorId());
             return Result.success(chatroom);
         } catch (Exception e) {
             return Result.error("error");

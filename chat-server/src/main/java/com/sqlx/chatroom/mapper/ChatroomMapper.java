@@ -23,6 +23,8 @@ public interface ChatroomMapper {
     @Options(useGeneratedKeys = true, keyProperty = "roomId")
     void insertChatroom(Chatroom chatroom);
 
+    @Insert("insert into chatroom_admin_info (User_ID, Room_ID) values (#{userId},#{roomId})")
+    void insertAdmin(Integer roomId, Integer userId);
 
     @Insert("insert into chatroom_user_info (User_ID, Room_ID) values (#{userId},#{roomId})")
     void insertMember(Integer roomId, Integer userId);
