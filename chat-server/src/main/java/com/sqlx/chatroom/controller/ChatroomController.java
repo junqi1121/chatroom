@@ -25,10 +25,10 @@ public class ChatroomController {
         return chatroomService.listAllChatroom();
     }
 
-    @GetMapping("/chatrooms/ById/{id}")
-    public Result listAllChatroomById(@PathVariable("id") Integer id) {
-        log.info("根据id查询某用户数据");
-        return chatroomService.selectChatroomById(id);
+    @GetMapping("/chatrooms/ById/{userId}")
+    public Result listAllChatroomByUserId(@PathVariable("userId") Integer userId) {
+        log.info("根据userid查询某用户数据");
+        return chatroomService.selectChatroomById(userId);
     }
 
     @PostMapping("/chatrooms")
