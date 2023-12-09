@@ -6,14 +6,26 @@ interface GroupGather {
 }
 
 // 群组
+// interface Group {
+//   groupId: string;
+//   userId: string; // 群主id
+//   groupName: string;
+//   notice: string;
+//   messages?: GroupMessage[];
+//   createTime: number;
+// }
+
+
+
+// 群组  不要群公告和创建时间
 interface Group {
   groupId: string;
   userId: string; // 群主id
   groupName: string;
-  notice: string;
   messages?: GroupMessage[];
-  createTime: number;
+
 }
+
 
 // 群与用户关联表
 interface GroupMap {
