@@ -1,9 +1,6 @@
 package com.sqlx.chatroom.mapper;
 import com.sqlx.chatroom.pojo.User;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import com.sqlx.chatroom.pojo.Chatroom;
 
 import java.util.List;
@@ -23,7 +20,9 @@ public interface ChatroomMapper {
 //    List<User> selectUserByRoomId(Integer roomId);
 
     @Insert("insert into chatroom (Room_Name, Creator_ID) values (#{roomName},#{creatorId})")
+    @Options(useGeneratedKeys = true, keyProperty = "roomId")
     void insertChatroom(Chatroom chatroom);
+
 
     @Insert("insert into chatroom_user_info (User_ID, Room_ID) values (#{userId},#{roomId})")
     void insertMember(Integer roomId, Integer userId);
