@@ -1,4 +1,7 @@
 import Vue from 'vue';
+import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
+
 import {
   SET_SOCKET,
   SET_DROPPED,
@@ -95,7 +98,15 @@ const mutations: MutationTree<ChatState> = {
 
   // 设置当前聊天对象(群或好友)
   [SET_ACTIVE_ROOM](state, payload: Friend & Group) {
+    console.log('----SET_ACTIVE_ROOM-----');
+    console.log(payload);
     state.activeRoom = payload;
+    console.log('---当前聊天室---   state.activeRoom', state.activeRoom);
+
+    // 设置好了当前的聊天室，需要建立与这个聊天室的websoccket连接
+
+
+
   },
 
   // 设置所有的群的群详细信息(头像,群名字等)

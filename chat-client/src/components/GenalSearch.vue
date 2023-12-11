@@ -123,6 +123,7 @@ export default class GenalSearch extends Vue {
     this.searchData = [...Object.values(this.groupGather), ...Object.values(this.friendGather)];
   }
 
+
   handleSearch(value: string) {
     let mySearchData = [];
     // "..." 是扩展运算符，用于取出参数对象的所有可遍历属性，拷贝到当前对象之中
@@ -146,9 +147,12 @@ export default class GenalSearch extends Vue {
     if (!value) {
       return;
     }
+    console.log('handleGroupSearch', value);
     let res = await apis.getGroupsByName(value);
     let data = processReturn(res);
+    console.log('handleGroupSearch', data);
     this.groupArr = data;
+    console.log('handleGroupSearch   groupArr', this.groupArr);
   }
 
   handleGroupSelect(group: Group) {
