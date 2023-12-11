@@ -52,33 +52,33 @@
           @change="handleGroupChange"
         >
           <a-select-option v-for="(group, index) in groupArr" :key="index" @click="handleGroupSelect(group)">
-            <div>{{ group.groupName }}</div>
-          </a-select-option>
-        </a-select>
-        <a-button @click="joinGroup" type="primary">加入群</a-button>
-      </div>
-    </a-modal>
-    <a-modal v-model="visibleAddFriend" footer="" title="搜索用户">
-      <div style="display:flex" v-if="visibleAddFriend">
-        <a-select
-          show-search
-          placeholder="请输入用户名"
-          style="width: 90%"
-          :default-active-first-option="false"
-          :show-arrow="false"
-          :filter-option="false"
-          :not-found-content="null"
-          @search="handleUserSearch"
-          @change="handleUserChange"
-        >
-          <a-select-option v-for="(user, index) in userArr" :key="index" @click="handleUserSelect(user)">
-            <div>{{ user.username }}</div>
-          </a-select-option>
-        </a-select>
-        <a-button @click="addFriend" type="primary">添加好友</a-button>
-      </div>
-    </a-modal>
-  </div>
+                                                            <div>{{ group.groupName }}</div>
+                                                </a-select-option>
+                                              </a-select>
+                                              <a-button @click="joinGroup" type="primary">加入群</a-button>
+                                            </div>
+                                          </a-modal>
+                                          <a-modal v-model="visibleAddFriend" footer="" title="搜索用户">
+                                            <div style="display:flex" v-if="visibleAddFriend">
+                                              <a-select
+                                                show-search
+                                                placeholder="请输入用户名"
+                                                style="width: 90%"
+                                                :default-active-first-option="false"
+                                                :show-arrow="false"
+                                                :filter-option="false"
+                                                :not-found-content="null"
+                                                @search="handleUserSearch"
+                                                @change="handleUserChange"
+                                              >
+                                                <a-select-option v-for="(user, index) in userArr" :key="index" @click="handleUserSelect(user)">
+                                                  <div>{{ user.username }}</div>
+                                                </a-select-option>
+                                              </a-select>
+                                              <a-button @click="addFriend" type="primary">添加好友</a-button>
+                                          </div>
+                                        </a-modal>
+                                      </div>
 </template>
 
 <script lang="ts">
@@ -87,6 +87,7 @@ import { namespace } from 'vuex-class';
 import { isContainStr, processReturn } from '@/utils/common.ts';
 import * as apis from '@/api/apis';
 import { nameVerify } from '@/utils/common';
+import { now } from 'moment';
 const chatModule = namespace('chat');
 
 @Component
@@ -149,13 +150,30 @@ export default class GenalSearch extends Vue {
     }
     console.log('handleGroupSearch', value);
     let res = await apis.getGroupsByName(value);
+
     let data = processReturn(res);
     console.log('handleGroupSearch', data);
-    this.groupArr = data;
+    // 依据data构造groupArr
+    // data的结构 data:Array(2)
+    //     0 :
+    //     { roomId: 4, creatorId: 1, roomName: '聊天室测试1' }
+    //     1 :
+    //     { roomId: 5, creatorId: 1, roomName: '聊天室测试2' }
+    for (let i = 0; i < data.length; i++) {
+      let group: Group = {
+        groupId: data[i].roomId,
+        userId: data[i].creatorId,
+        groupName: data[i].roomName,
+      };
+      this.groupArr.push(group);
+    }
+
+
     console.log('handleGroupSearch   groupArr', this.groupArr);
   }
 
   handleGroupSelect(group: Group) {
+    console.log('handleGroupSelect', group, now());
     this.groupId = group.groupId;
   }
 
@@ -196,6 +214,7 @@ export default class GenalSearch extends Vue {
 
   joinGroup() {
     this.visibleJoinGroup = false;
+    console.log('joinGroup  groupId', this.groupId);
     this.$emit('joinGroup', this.groupId);
     this.groupId = '';
   }
