@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import * as SockJS from 'sockjs-client';
-import * as Stomp from 'stompjs';
+// import * as SockJS from 'sockjs-client';
+// import * as Stomp from 'stompjs';
 
 import {
   SET_SOCKET,
@@ -22,6 +22,7 @@ import {
 import { ChatState } from './state';
 import { MutationTree } from 'vuex';
 import { DEFAULT_GROUP } from '@/const';
+
 
 const mutations: MutationTree<ChatState> = {
   // 保存socket
@@ -104,8 +105,14 @@ const mutations: MutationTree<ChatState> = {
     console.log('---当前聊天室---   state.activeRoom', state.activeRoom);
 
     // 设置好了当前的聊天室，需要建立与这个聊天室的websoccket连接
-
-
+    const socket = new SockJS('http://localhost:8080/ws');
+    const stompClient = Stomp.over(socket);
+    console.log("stompClient: " + stompClient);
+    // 连接，并且控制台输出连接成功与否
+    stompClient.connect({}, function () {
+      console.log('Connected: ' + stompClient.connected);
+    });
+    //  连接上之后，订阅服务器的消息 todo！！！
 
   },
 
