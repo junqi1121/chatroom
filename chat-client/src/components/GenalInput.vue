@@ -248,7 +248,9 @@ export default class GenalInput extends Vue {
     }
     let image = new Image();
     let url = window.URL || window.webkitURL;
+    console.log(url);
     image.src = url.createObjectURL(imageFile);
+    console.log(image.src)
     image.onload = () => {
       let imageSize: ImageSize = this.getImageSize({ width: image.width, height: image.height });
       this.sendMessage({
