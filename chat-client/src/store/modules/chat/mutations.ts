@@ -104,7 +104,7 @@ const mutations: MutationTree<ChatState> = {
     state.activeRoom = payload;
     console.log('---当前聊天室---   state.activeRoom', state.activeRoom);
 
-    // 设置好了当前的聊天室，需要建立与这个聊天室的websoccket连接
+    // 设置好了当前的聊天室，需要建立与这个聊天室的websoccket连接  需要把这个设置成全局的，以便其他的组件也能使用
     const socket = new SockJS('http://localhost:8080/ws');
     const stompClient = Stomp.over(socket);
     console.log("stompClient: " + stompClient);
@@ -112,7 +112,8 @@ const mutations: MutationTree<ChatState> = {
     stompClient.connect({}, function () {
       console.log('Connected: ' + stompClient.connected);
     });
-    //  连接上之后，订阅服务器的消息 todo！！！
+    //  连接上之后，订阅服务器的消息 todo！！！  回调函数为监听到服务器的消息之后的处理函数
+    stompClient.subscribe('/topic/' + payload.groupId, onMessageReceived);
 
   },
 
@@ -160,5 +161,52 @@ const mutations: MutationTree<ChatState> = {
     Vue.set(state.unReadGather, payload, 0);
   },
 };
+
+
+
+//payload是服务器返回的消息 需要解决下报错Parameter 'payload' implicitly has an 'any' type.
+
+
+
+
+function onMessageReceived(payload: any) {
+  var message = JSON.parse(payload.body);
+  console.log("message: " + message);
+  //   var messageElement = document.createElement('li');
+
+  //   if (message.type == 'JOIN') {
+  //     messageElement.classList.add('event-message');
+  //     message.content = message.userId + ' joined!';
+  //   } else if (message.type == 'LEAVE') {
+  //     messageElement.classList.add('event-message');
+  //     message.content = message.userId + ' left!';
+  //   } else {
+  //     messageElement.classList.add('chat-message');
+
+  //     var avatarElement = document.createElement('i');
+  //     var avatarText = document.createTextNode(message.userId);
+  //     avatarElement.appendChild(avatarText);
+  //     avatarElement.style['background-color'] = getAvatarColor(message.userId);
+
+  //     messageElement.appendChild(avatarElement);
+
+  //     var usernameElement = document.createElement('span');
+  //     var usernameText = document.createTextNode(message.userId);
+  //     usernameElement.appendChild(usernameText);
+  //     messageElement.appendChild(usernameElement);
+  //   }
+
+  //   var textElement = document.createElement('p');
+  //   var messageText = document.createTextNode(message.content);
+  //   textElement.appendChild(messageText);
+
+  //   messageElement.appendChild(textElement);
+
+  //   messageArea.appendChild(messageElement);
+  //   messageArea.scrollTop = messageArea.scrollHeight;
+  // }
+}
+
+
 
 export default mutations;

@@ -176,11 +176,16 @@ export default class GenalChat extends Vue {
   }
 
   // 加入群组
-  joinGroup(groupId: string) {
-    this.socket.emit('joinGroup', {
+  async joinGroup(groupId: string) {
+    console.log('joinGroup groupID --GenalChat', groupId);
+    // 访问后端接口，将当前用户加入到群组中，/chatrooms/member / { roomId } / { userId }
+    let res = await fetch.post(`http://localhost:8080/chatrooms/member/${groupId}/${this.user.userId}`, {
+      roomId: groupId,
       userId: this.user.userId,
-      groupId: groupId,
     });
+    processReturn(res);
+    console.log('joinGroup res', res);
+    this.handleJoin();
   }
 
   // 添加好友
