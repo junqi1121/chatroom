@@ -125,7 +125,8 @@ export default class GenalChat extends Vue {
     let userId = this.user.userId;
     let res = await fetch.get(`http://localhost:8080/chatrooms/ByUserId/${userId}`);
     console.log('获取群组列表  ------  res', res);
-    let data = processReturn(res);
+    // let data = processReturn(res);
+    let data = res.data.data;
     // 依据datae的数据结构，将data转换为groupGather
     let groupGather: GroupGather = {};
     console.log('handle Join  ----data', data);
@@ -167,16 +168,24 @@ export default class GenalChat extends Vue {
       roomName: groupName,
 
     });
+    processReturn(res);
     console.log('add Group res', res);
+    this.handleJoin();
+
 
   }
 
   // 加入群组
-  joinGroup(groupId: string) {
-    this.socket.emit('joinGroup', {
+  async joinGroup(groupId: string) {
+    console.log('joinGroup groupID --GenalChat', groupId);
+    // 访问后端接口，将当前用户加入到群组中，/chatrooms/member / { roomId } / { userId }
+    let res = await fetch.post(`http://localhost:8080/chatrooms/member/${groupId}/${this.user.userId}`, {
+      roomId: groupId,
       userId: this.user.userId,
-      groupId: groupId,
     });
+    processReturn(res);
+    console.log('joinGroup res', res);
+    this.handleJoin();
   }
 
   // 添加好友
@@ -191,7 +200,10 @@ export default class GenalChat extends Vue {
 
   // 设置当前聊天窗
   setActiveRoom(room: Friend & Group) {
+    console.log('setActiveRoom', room);
     this._setActiveRoom(room);
+    //控制台输出一下当前聊天窗，以及触发此函数的时间  时-分-秒
+    console.log('setActiveRoom', room, new Date().toLocaleTimeString());
   }
 
   // 注销
