@@ -1,3 +1,15 @@
-// global.d.ts
-declare var SockJS: typeof import("sockjs-client");
-declare var Stomp: typeof import("stompjs");
+// // stomp.d.ts
+// declare module 'stompjs' {
+//     import { Client } from 'stompjs';
+
+//     const Stomp: {
+//         over: (socket: any) => Client;
+//     };
+
+//     export = Stomp;
+// }
+
+// declare module 'sockjs-client' {
+//     const SockJS: any;
+//     export = SockJS;
+// }

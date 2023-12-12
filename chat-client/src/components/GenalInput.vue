@@ -133,14 +133,28 @@ export default class GenalInput extends Vue {
    */
   sendMessage(data: SendMessage) {
     if (data.type === 'group') {
-      this.socket.emit('groupMessage', {
+      // this.socket.emit('groupMessage', {
+      //   userId: this.user.userId,
+      //   groupId: this.activeRoom.groupId,
+      //   content: data.message,
+      //   width: data.width,
+      //   height: data.height,
+      //   messageType: data.messageType,
+      // });
+      let chatMessage = {
         userId: this.user.userId,
-        groupId: this.activeRoom.groupId,
+        roomId: this.activeRoom.groupId,
         content: data.message,
-        width: data.width,
-        height: data.height,
-        messageType: data.messageType,
-      });
+        type: "TEXT",
+        time: new Date().valueOf()
+      }
+      // 使用chat state中的stompClient发送消息
+      this.$store.state.chat.stompClient.send('http://localhost:8080/app/groupMessage', {}, JSON.stringify(chatMessage));
+
+
+
+
+
     } else {
       this.socket.emit('friendMessage', {
         userId: this.user.userId,
@@ -322,3 +336,7 @@ export default class GenalInput extends Vue {
   }
 }
 </style>
+
+function commit(arg0: string, chatMessage: { userId: any; roomId: any; content: any; type: string; time: number; }) {
+  throw new Error('Function not implemented.');
+}
