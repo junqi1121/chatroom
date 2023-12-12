@@ -19,8 +19,8 @@ CREATE TABLE user_chatroom_report (
                                       Room_ID INT(11) UNSIGNED,
                                       Reason VARCHAR(191),
                                       Result TINYINT(4) UNSIGNED DEFAULT NULL,
-                                      Time INT(11) UNSIGNED,
-                                      PRIMARY KEY (User_ID, Room_ID)
+                                      Time BIGINT,
+                                      PRIMARY KEY (User_ID, Room_ID, Time)
 );
 
 -- Table 7.2.4: 聊天室管理员信息数据表
@@ -43,7 +43,7 @@ CREATE TABLE user_chatroom_application (
                                            Room_ID INT(11) UNSIGNED,
                                            Reason VARCHAR(191),
                                            Result TINYINT(4) UNSIGNED DEFAULT NULL,
-                                           Time INT(11) UNSIGNED,
+                                           Time BIGINT,
                                            PRIMARY KEY (User_ID, Room_ID)
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE group_message (
                                     User_ID INT(11) UNSIGNED,
                                     Content VARCHAR(191) NOT NULL,
                                     Type enum('TEXT','IMAGE','FILE','JOIN','LEAVE'),
-                                    Time INT(11) UNSIGNED
+                                    Time BIGINT
 );
 
 -- Table 7.2.8: 用户-群聊消息举报信息数据表
@@ -63,7 +63,7 @@ CREATE TABLE user_group_message_report (
                                            Message_ID INT(11) UNSIGNED,
                                            Reason VARCHAR(191),
                                            Result TINYINT(4) UNSIGNED DEFAULT NULL,
-                                           Time INT(11) UNSIGNED,
+                                           Time BIGINT,
                                            PRIMARY KEY (User_ID, Message_ID)
 );
 
@@ -74,5 +74,5 @@ CREATE TABLE private_message (
                                       Receiver_ID INT(11) UNSIGNED,
                                       Content VARCHAR(191) NOT NULL,
                                       Type enum('TEXT','IMAGE','FILE','JOIN','LEAVE'),
-                                      Time INT(11) UNSIGNED
+                                      Time BIGINT
 );

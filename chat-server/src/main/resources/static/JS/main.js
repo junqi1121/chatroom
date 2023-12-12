@@ -88,7 +88,7 @@ function onConnected() {
         roomId: room,
         content: '',
         type: 'JOIN',
-        time: 0
+        time: new Date().valueOf()
     };
     stompClient.send("/app/groupMessage", {}, JSON.stringify(chatMessage));
     connectingElement.classList.add('hidden');
@@ -111,7 +111,7 @@ function sendMessage(event) {
             roomId: roomId,
             content: messageInput.value,
             type: 'TEXT',
-            time: 0
+            time: new Date().valueOf()
         };
 
         stompClient.send("/app/groupMessage", {}, JSON.stringify(chatMessage));
