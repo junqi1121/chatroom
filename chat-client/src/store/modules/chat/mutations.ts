@@ -18,11 +18,15 @@ import {
   DEL_FRIEND,
   ADD_UNREAD_GATHER,
   LOSE_UNREAD_GATHER,
+  SET_STOMP_CLIENT,
 } from './mutation-types';
 import { ChatState } from './state';
 import { MutationTree } from 'vuex';
 import { DEFAULT_GROUP } from '@/const';
+import SockJS from 'sockjs-client';
 
+import Stomp from 'stompjs';
+import ts from 'typescript';
 
 const mutations: MutationTree<ChatState> = {
   // 保存socket
@@ -104,16 +108,18 @@ const mutations: MutationTree<ChatState> = {
     state.activeRoom = payload;
     console.log('---当前聊天室---   state.activeRoom', state.activeRoom);
 
-    // 设置好了当前的聊天室，需要建立与这个聊天室的websoccket连接  需要把这个设置成全局的，以便其他的组件也能使用
-    const socket = new SockJS('http://localhost:8080/ws');
-    const stompClient = Stomp.over(socket);
-    console.log("stompClient: " + stompClient);
-    // 连接，并且控制台输出连接成功与否
-    stompClient.connect({}, function () {
-      console.log('Connected: ' + stompClient.connected);
-    });
+
     //  连接上之后，订阅服务器的消息 todo！！！  回调函数为监听到服务器的消息之后的处理函数
-    stompClient.subscribe('/topic/' + payload.groupId, onMessageReceived);
+    if (state.stompClient == null) {
+      console.log("state.stompClient == null");
+    }
+    else {
+      state.stompClient.subscribe('/topic/' + payload.groupId, onMessageReceived);
+      // 输出一下订阅情况
+      console.log("订阅情况：/topic/" + payload.groupId);
+      console.log("SET_ACTIVE_ROOM    state.stompClient: " + state.stompClient);
+    }
+
 
   },
 
@@ -159,6 +165,10 @@ const mutations: MutationTree<ChatState> = {
   // 给某个聊天组清空未读消息
   [LOSE_UNREAD_GATHER](state, payload: string) {
     Vue.set(state.unReadGather, payload, 0);
+  },
+  [SET_STOMP_CLIENT](state, payload: Stomp.Client) {
+    state.stompClient = payload;
+    console.log("SET_STOMP_CLIENT    state.stompClient: " + state.stompClient);
   },
 };
 

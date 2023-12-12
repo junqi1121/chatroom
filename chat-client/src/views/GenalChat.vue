@@ -46,8 +46,12 @@ import GenalMusic from '@/components/GenalMusic.vue';
 import { namespace } from 'vuex-class';
 const appModule = namespace('app');
 const chatModule = namespace('chat');
+import SockJs from 'sockjs-client';
 
 import { processReturn } from '@/utils/common.ts';
+import SockJS from 'sockjs-client';
+
+import Stomp from 'stompjs';
 
 @Component({
   components: {
@@ -149,6 +153,10 @@ export default class GenalChat extends Vue {
     this.$store.commit('chat/set_group_gather', groupGather);
     //输出一下state中的groupGather，看看是否正确
     console.log('this.$store.state.chat.groupGather', this.$store.state.chat.groupGather);
+    let sscoket = new SockJS('http://localhost:8080/ws');
+    // 设置chatstate中的stompClient
+    this.$store.commit('chat/set_stomp_client', Stomp.over(sscoket));
+
   }
 
 

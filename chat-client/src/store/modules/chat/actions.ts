@@ -17,11 +17,12 @@ import {
   DEL_GROUP,
   DEL_FRIEND,
   ADD_UNREAD_GATHER,
+  SET_STOMP_CLIENT,
 } from './mutation-types';
 
 import { DEFAULT_GROUP } from '@/const/index';
-
-
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 const actions: ActionTree<ChatState, RootState> = {
   // 初始化socket连接和监听socket事件
@@ -43,6 +44,9 @@ const actions: ActionTree<ChatState, RootState> = {
       path: '/ws',
       reconnection: false
     });
+
+    let ssocket = new SockJS('http://localhost:8080/ws');
+    commit(SET_STOMP_CLIENT, Stomp.over(ssocket));
 
 
 
