@@ -1,10 +1,7 @@
 package com.sqlx.chatroom.mapper;
 import com.sqlx.chatroom.pojo.GroupMessage;
 import com.sqlx.chatroom.pojo.Chatroom;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,6 +16,7 @@ public interface GroupMessageMapper {
 
     @Insert("insert into group_message (Room_ID, User_ID, Content, Type, Time)" +
             " values (#{roomId},#{userId},#{content},#{type},#{time})")
+    @Options(useGeneratedKeys = true, keyProperty = "messageId")
     void insertGroupMessageIntoChatroom(GroupMessage groupMessage);
 
 }
