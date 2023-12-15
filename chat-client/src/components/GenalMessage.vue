@@ -218,11 +218,7 @@ export default class GenalMessage extends Vue {
     let current = this.activeRoom.messages!.length;
     let currentMessage = this.activeRoom.messages ? this.activeRoom.messages : [];
     let data: PagingResponse = processReturn(
-      await api.getGroupMessages({
-        groupId,
-        current,
-        pageSize: this.pageSize,
-      })
+      await api.getGroupMessages(groupId)
     );
     if (data) {
       if (!data.messageArr.length || data.messageArr.length < this.pageSize) {

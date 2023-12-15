@@ -3,6 +3,7 @@ import { ChatState } from './state';
 import { RootState } from '../../index';
 import io from 'socket.io-client';
 import Vue from 'vue';
+import fetch from '@/api/fetch';
 
 // import SockJS from 'sockjs-client';
 // import Stomp from 'stompjs';
@@ -114,6 +115,8 @@ const actions: ActionTree<ChatState, RootState> = {
     }
     commit(SET_ACTIVE_ROOM, groupGather2[activeRoom.groupId] || friendGather2[activeRoom.userId]);
   },
+
+
 };
 
 export default actions;
