@@ -265,8 +265,8 @@ export default class GenalInput extends Vue {
     // image.src = url.createObjectURL(imageFile);
     // console.log("image.src", image.src)
     const cos = new COS({
-      SecretId: 'AKID5yd4HH2lHafV7OSKyOceS2BE4iEXbS6Z',
-      SecretKey: 'JSPFtJckiYCdrumaEhy3ua3iBQfjgVBi'
+      SecretId: 'AKID5yd4HH2lHafV7OSKyOceS2BEZ',
+      SecretKey: 'JSPFtJckiYCdrumaEhjgVBi'
     });
 
 
