@@ -93,7 +93,7 @@ export default class GenalChat extends Vue {
     console.log('GenalChat mounted');
     // this.connectSocket();
     this.$store.dispatch('chat/connectSocket');
-  },
+  }
 
 
 
@@ -171,6 +171,7 @@ export default class GenalChat extends Vue {
     // });
     // data = processReturn(res);
     // console.log('---------------------', data)
+
   }
 
 
