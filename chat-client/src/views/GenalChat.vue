@@ -52,6 +52,8 @@ import { processReturn } from '@/utils/common.ts';
 import SockJS from 'sockjs-client';
 
 import Stomp from 'stompjs';
+import { now } from 'moment';
+import { message } from 'ant-design-vue';
 
 @Component({
   components: {
@@ -85,6 +87,16 @@ export default class GenalChat extends Vue {
   showModal: boolean = false;
   visibleDrawer: boolean = false;
   visibleTool: boolean = true;
+
+  //挂载时，建立websocket连接
+  mounted() {
+    console.log('GenalChat mounted');
+    // this.connectSocket();
+    this.$store.dispatch('chat/connectSocket');
+  },
+
+
+
 
   created() {
     console.log('GenalChat created');
@@ -122,6 +134,7 @@ export default class GenalChat extends Vue {
 
   // 进入系统初始化事件
   async handleJoin() {
+
     console.log('进入系统初始化事件');
     this.showModal = false;
     // this.connectSocket();
@@ -134,12 +147,7 @@ export default class GenalChat extends Vue {
     // 依据datae的数据结构，将data转换为groupGather
     let groupGather: GroupGather = {};
     console.log('handle Join  ----data', data);
-    // 一个data的结构的例子
-    //     // data:Array(2)
-    //     0 :
-    //     { roomId: 4, creatorId: 1, roomName: '聊天室测试1' }
-    //     1 :
-    //     { roomId: 5, creatorId: 1, roomName: '聊天室测试2' }
+
     for (let i = 0; i < data.length; i++) {
       let group: Group = {
         groupId: data[i].roomId,
@@ -153,10 +161,16 @@ export default class GenalChat extends Vue {
     this.$store.commit('chat/set_group_gather', groupGather);
     //输出一下state中的groupGather，看看是否正确
     console.log('this.$store.state.chat.groupGather', this.$store.state.chat.groupGather);
-    let sscoket = new SockJS('http://localhost:8080/ws');
-    // 设置chatstate中的stompClient
-    this.$store.commit('chat/set_stomp_client', Stomp.over(sscoket));
 
+    // let rres = await fetch.post('http://localhost:8080/groupMessage0', {
+    //   userId: this.user.userId,
+    //   roomId: '1',
+    //   content: "测试消息",
+    //   type: "TEXT",
+    //   time: now().valueOf()
+    // });
+    // data = processReturn(res);
+    // console.log('---------------------', data)
   }
 
 

@@ -38,6 +38,9 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import GenalEmoji from './GenalEmoji.vue';
 import { namespace } from 'vuex-class';
+import Stomp from 'stompjs';
+import SockJS from 'sockjs-client';
+import { now } from 'moment';
 const chatModule = namespace('chat');
 const appModule = namespace('app');
 
@@ -141,29 +144,21 @@ export default class GenalInput extends Vue {
       //   height: data.height,
       //   messageType: data.messageType,
       // });
+
       let chatMessage = {
         userId: this.user.userId,
         roomId: this.activeRoom.groupId,
         content: data.message,
         type: "TEXT",
-        time: new Date().valueOf()
+        time: now().valueOf()
       }
+      // 查看一下stomp对象是否为空
+      console.log("stomp对象是否为空？", this.$store.state.chat.stompClient)
+      console.log("连接还在吗？", this.$store.state.chat.stompClient.connected)
+      console.log("显示一下订阅链接?", this.$store.state.chat.stompClient.subscriptions)
       // 使用chat state中的stompClient发送消息
-      this.$store.state.chat.stompClient.send('http://localhost:8080/app/groupMessage', {}, JSON.stringify(chatMessage));
+      this.$store.state.chat.stompClient.send('/app/groupMessage', {}, JSON.stringify(chatMessage));
 
-
-
-
-
-    } else {
-      this.socket.emit('friendMessage', {
-        userId: this.user.userId,
-        friendId: this.activeRoom.userId,
-        content: data.message,
-        width: data.width,
-        height: data.height,
-        messageType: data.messageType,
-      });
     }
   }
 
