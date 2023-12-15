@@ -8,6 +8,8 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
+var roomId = null;
+
 var stompClient = null;
 var userId = null;
 
@@ -34,12 +36,12 @@ function connect(event) {
 
 function onConnected() {
     // Subscribe to the Public Topic
-    var room = parseInt(document.getElementById("roomSelector").value.slice(-1));
-    stompClient.subscribe('/topic/' + room, onMessageReceived);
+    roomId = parseInt(document.getElementById("roomSelector").value.slice(-1));
+    stompClient.subscribe('/topic', onMessageReceived);
     // Tell your username to the server
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:8080/groupMessage/ByRoomId/' + room, false);
+    xhr.open('GET', 'http://localhost:8080/groupMessage/ByRoomId/' + roomId, false);
     xhr.onreadystatechange = function () {
         if(xhr.readyState===4){
             if (xhr.status === 200) {
@@ -85,7 +87,7 @@ function onConnected() {
 
     var chatMessage = {
         userId: userId,
-        roomId: room,
+        roomId: roomId,
         content: '',
         type: 'JOIN',
         time: new Date().valueOf()
@@ -103,7 +105,6 @@ function onError(error) {
 
 function sendMessage(event) {
     var messageContent = messageInput.value.trim();
-    var roomId = parseInt(document.getElementById("roomSelector").value.slice(-1));
 
     if (messageContent && stompClient) {
         var chatMessage = {
@@ -123,6 +124,9 @@ function sendMessage(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
+    if(message.roomId != roomId){
+        return;
+    }
 
     var messageElement = document.createElement('li');
 
