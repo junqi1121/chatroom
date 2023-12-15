@@ -156,6 +156,21 @@ export default class GenalChat extends Vue {
         groupName: data[i].roomName,
       }
       groupGather[group.groupId] = group;
+      // 依据群id，获取群成员列表，将其中的每个成员都设置到userGather中
+      let res2 = await fetch.get(`http://localhost:8080/users/ByRoomId/${group.groupId}`);
+      console.log('获取群成员列表  ------  res2', res2);
+      let data2 = res2.data.data;
+      console.log('获取群成员列表  ------  data2', data2);
+      for (let j = 0; j < data2.length; j++) {
+        let user: User = {
+          userId: data2[j].userId,
+          username: data2[j].userName,
+          password: data2[j].userPwd,
+          avatar: "https://junqi-image-1309597993.cos.ap-chengdu.myqcloud.com/image/202312121638089.png",
+          createTime: 0
+        }
+        this.$store.commit('chat/set_user_gather', user);
+      }
     }
 
     console.log('groupGather 初始化处理！！！', groupGather);

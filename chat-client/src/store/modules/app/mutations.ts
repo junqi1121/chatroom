@@ -16,7 +16,8 @@ const mutations: MutationTree<AppState> = {
       username: '',
       password: '',
       avatar: 'https://junqi-image-1309597993.cos.ap-chengdu.myqcloud.com/image/202312121638089.png',
-      createTime: 0,
+      createTime: 0
+
     };
     cookie.set('user', '');
   },

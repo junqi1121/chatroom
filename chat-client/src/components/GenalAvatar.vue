@@ -2,25 +2,23 @@
   <div class="avatar" v-if="userGather[data.userId]">
     <a-popover v-if="data.userId !== user.userId" trigger="click">
       <div slot="content" class="avatar-card">
-                                          <!-- <a-avatar :size="60" :src="userGather[data.userId].avatar" />
-         -->
-                              <a-avatar :size="60" :src="this.user.avatar" />
-                                <div>名称测试</div>
-                              <a-button v-if="user.role === 'admin'" style="margin-bottom: 5px;" @click="deleteUser(data.userId)" type="primary">
-                                删除用户
-                              </a-button>
-
-                                  <a-button @click="_setActiveRoom(data.userId)" type="primary" v-if="friendGather[data.userId]">进入私聊</a-button>
-                                  <a-button @click="addFriend(data.userId)" type="primary" v-else>添加好友</a-button>
-                                </div>
-                                <a-avatar class="avatar-img" :src="this.user.avatar" />
-                              </a-popover>
-                                <a-avatar v-else class="avatar-img" :src="this.user.avatar" />
-                            <div>
-                          <span class="avatar-name">名称测试</span>
-      <span class="avatar-time" v-if="showTime">{{ _formatTime(data.time) }}</span>
-    </div>
-  </div>
+              <a-avatar :size="60" :src="userGather[data.userId].avatar" />
+              <div>{{ userGather[data.userId].username }}</div>
+              <a-button v-if="user.role === 'admin'" style="margin-bottom: 5px;" @click="deleteUser(data.userId)"
+                type="primary">
+                删除用户
+              </a-button>
+              <a-button @click="_setActiveRoom(data.userId)" type="primary" v-if="friendGather[data.userId]">进入私聊</a-button>
+              <a-button @click="addFriend(data.userId)" type="primary" v-else>添加好友</a-button>
+            </div>
+            <a-avatar class="avatar-img" :src="userGather[data.userId].avatar" />
+          </a-popover>
+          <a-avatar v-else class="avatar-img" :src="userGather[data.userId].avatar" />
+          <div>
+          <span class="avatar-name">{{ userGather[data.userId].username }}</span>
+          <span class="avatar-time" v-if="showTime">{{ _formatTime(data.time) }}</span>
+        </div>
+      </div>
 </template>
 
 <script lang="ts">
@@ -74,26 +72,31 @@ export default class GenalAvatar extends Vue {
   display: flex;
   align-items: center;
   height: 37px;
+
   .avatar-img {
     cursor: pointer;
     width: 35px;
     height: 35px;
   }
+
   .avatar-name {
     margin-left: 5px;
   }
+
   .avatar-time {
     font-size: 12px;
     color: rgb(255, 255, 255, 0.75);
     margin-left: 3px;
   }
 }
+
 .avatar-card {
   display: flex;
   font-size: 18px;
   flex-direction: column;
   align-items: center;
-  > div {
+
+  >div {
     margin: 4px;
   }
 }
