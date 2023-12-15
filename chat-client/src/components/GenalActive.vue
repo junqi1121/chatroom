@@ -23,6 +23,7 @@
         </div>
       </a-drawer>
     </div>
+    
     <div v-else>
       <a-popconfirm title="确定要删除该好友吗？" placement="bottomRight" ok-text="Yes" cancel-text="No" @confirm="exitFriend">
         <a-icon type="user-delete" class="active-button" />

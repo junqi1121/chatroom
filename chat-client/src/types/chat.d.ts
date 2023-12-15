@@ -23,7 +23,6 @@ interface Group {
   userId: string; // 群主id
   groupName: string;
   messages?: GroupMessage[];
-
 }
 
 

@@ -52,11 +52,15 @@ const mutations: MutationTree<ChatState> = {
 
   // 新增一条群消息
   [ADD_GROUP_MESSAGE](state, payload: GroupMessage) {
+
+
     if (state.groupGather[payload.groupId].messages) {
-      // 如果群消息的列表已经存在, 直接push
-      // 这里的‘！’是告诉ts, 这个属性（payload)一定存在, 不然会报错
+      console.log('----ADD_GROUP_MESSAGE    111-----');
       state.groupGather[payload.groupId].messages!.push(payload);
+
     } else {
+      console.log('----ADD_GROUP_MESSAGE    222-----');
+
       // vuex对象数组中对象改变不更新问题
       Vue.set(state.groupGather[payload.groupId], 'messages', [payload]);
     }
@@ -107,20 +111,6 @@ const mutations: MutationTree<ChatState> = {
     console.log(payload);
     state.activeRoom = payload;
     console.log('---当前聊天室---   state.activeRoom', state.activeRoom);
-
-
-    //  连接上之后，订阅服务器的消息 todo！！！  回调函数为监听到服务器的消息之后的处理函数
-    if (state.stompClient == null) {
-      console.log("state.stompClient == null");
-    }
-    else {
-      state.stompClient.subscribe('/topic/' + payload.groupId, onMessageReceived);
-      // 输出一下订阅情况
-      console.log("订阅情况：/topic/" + payload.groupId);
-      console.log("SET_ACTIVE_ROOM    state.stompClient: " + state.stompClient);
-    }
-
-
   },
 
   // 设置所有的群的群详细信息(头像,群名字等)

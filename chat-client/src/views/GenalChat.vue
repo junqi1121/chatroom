@@ -145,6 +145,7 @@ export default class GenalChat extends Vue {
     // let data = processReturn(res);
     let data = res.data.data;
     // 依据datae的数据结构，将data转换为groupGather
+
     let groupGather: GroupGather = {};
     console.log('handle Join  ----data', data);
 
@@ -157,20 +158,15 @@ export default class GenalChat extends Vue {
       groupGather[group.groupId] = group;
     }
 
-    console.log('groupGather', groupGather);
+    console.log('groupGather 初始化处理！！！', groupGather);
     this.$store.commit('chat/set_group_gather', groupGather);
     //输出一下state中的groupGather，看看是否正确
-    console.log('this.$store.state.chat.groupGather', this.$store.state.chat.groupGather);
+    console.log('this.$store.state.chat.groupGather  groupGather设置好了吗？', this.$store.state.chat.groupGather);
 
-    // let rres = await fetch.post('http://localhost:8080/groupMessage0', {
-    //   userId: this.user.userId,
-    //   roomId: '1',
-    //   content: "测试消息",
-    //   type: "TEXT",
-    //   time: now().valueOf()
-    // });
-    // data = processReturn(res);
-    // console.log('---------------------', data)
+    // 输出一下 state中的 groupGather[1]
+    // console.log('this.$store.state.chat.groupGather[1]  groupGather设置好了吗？', this.$store.state.chat.groupGather[1]);
+
+
 
   }
 

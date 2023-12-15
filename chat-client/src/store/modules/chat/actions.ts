@@ -35,11 +35,19 @@ const actions: ActionTree<ChatState, RootState> = {
     stompClient.connect({}, success => {
       console.log('websocket连接成功 回调函数', success);
       // 订阅群消息
-      stompClient.subscribe('/topic/', msg => {
+      stompClient.subscribe('/topic', msg => {
         console.log('收到消息', msg);
         let groupMessage = JSON.parse(msg.body);
         console.log('收到消息', groupMessage);
-        // commit(ADD_GROUP_MESSAGE, groupMessage);
+        // 依据groupMessage，生成interface GroupMessage
+        let gm = {
+          userId: groupMessage.userId,
+          groupId: groupMessage.roomId,
+          content: groupMessage.content,
+          messageType: groupMessage.type,
+          time: groupMessage.time
+        }
+        commit(ADD_GROUP_MESSAGE, gm);
       });
     });
     console.log('刚才建立连接的stompClient', stompClient);

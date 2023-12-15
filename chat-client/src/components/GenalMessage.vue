@@ -23,7 +23,7 @@
             <genal-avatar :data="item"></genal-avatar>
             <div>
               <a class="message-content-text" v-if="_isUrl(item.content)" :href="item.content" target="_blank">{{ item.content }}</a>
-              <div class="message-content-text" v-text="_parseText(item.content)" v-else-if="item.messageType === 'text'"></div>
+                  <div class="message-content-text" v-text="_parseText(item.content)" v-else-if="item.messageType === 'TEXT'"></div>
               <div class="message-content-image" v-if="item.messageType === 'image'" :style="getImageStyle(item.content)">
                 <viewer style="display:flex;align-items:center;">
                   <img :src="'api/static/' + item.content" alt="" />
@@ -125,7 +125,11 @@ export default class GenalMessage extends Vue {
    */
   @Watch('activeRoom.messages', { deep: true })
   changeMessages() {
+    console.log('新消息来了');
+    console.log(this.activeRoom.messages);
+
     if (this.needScrollToBottom) {
+      console.log('滚动到底部')
       this.addMessage();
     }
     this.needScrollToBottom = true;
@@ -142,9 +146,12 @@ export default class GenalMessage extends Vue {
    * 在分页信息的基础上来了新消息
    */
   addMessage() {
+    console.log('addMessage');
     if (this.activeRoom.messages) {
+      console.log('当前窗口的消息')
       // 新消息来了只有是自己发的消息和消息框本身在底部才会滚动到底部
       let messages = this.activeRoom.messages;
+      console.log(messages)
       if (
         messages[messages.length - 1].userId === this.user.userId ||
         (this.messageDom && this.messageDom.scrollTop + this.messageDom.offsetHeight + 100 > this.messageContentDom.scrollHeight)
