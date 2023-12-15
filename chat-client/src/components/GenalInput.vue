@@ -41,6 +41,8 @@ import { namespace } from 'vuex-class';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 import { now } from 'moment';
+import COS from 'cos-js-sdk-v5';
+
 const chatModule = namespace('chat');
 const appModule = namespace('app');
 
@@ -124,9 +126,9 @@ export default class GenalInput extends Vue {
       return;
     }
     if (this.activeRoom.groupId) {
-      this.sendMessage({ type: 'group', message: this.text, messageType: 'text' });
+      this.sendMessage({ type: 'group', message: this.text, messageType: 'TEXT' });
     } else {
-      this.sendMessage({ type: 'friend', message: this.text, messageType: 'text' });
+      this.sendMessage({ type: 'friend', message: this.text, messageType: 'TEXT' });
     }
     this.text = '';
   }
@@ -148,8 +150,8 @@ export default class GenalInput extends Vue {
       let chatMessage = {
         userId: this.user.userId,
         roomId: this.activeRoom.groupId,
-        content: data.message,
-        type: "TEXT",
+        content: data.message.toString(),
+        type: data.messageType,
         time: now().valueOf()
       }
       // 查看一下stomp对象是否为空
@@ -255,11 +257,46 @@ export default class GenalInput extends Vue {
     if (!isLt1M) {
       return this.$message.error('图片必须小于500K!');
     }
+
+    console.log("发送图片函数", imageFile);
     let image = new Image();
-    let url = window.URL || window.webkitURL;
-    console.log(url);
-    image.src = url.createObjectURL(imageFile);
-    console.log(image.src)
+    // let url = window.URL || window.webkitURL;
+    // console.log("生成的临时的url", url);
+    // image.src = url.createObjectURL(imageFile);
+    // console.log("image.src", image.src)
+    const cos = new COS({
+      SecretId: 'AKID5yd4HH2lHafV7OSKyOceS2BE4iEXbS6Z',
+      SecretKey: 'JSPFtJckiYCdrumaEhy3ua3iBQfjgVBi'
+    });
+
+
+    const cosParams = {
+      Bucket: 'junqi-image-1309597993', // 示例: 'examplebucket-1250000000'
+      Region: 'ap-chengdu',       // 示例: 'ap-guangzhou'
+      Key: '研究与开发实践/' + imageFile.name, // 示例: 'images/myphoto.png'
+      Body: imageFile
+    };
+    // 上传图片至腾讯云
+    cos.putObject(cosParams, (err: any, data: any) => {
+      if (err) {
+        console.log("上传图片失败", err);
+      } else {
+        console.log("上传图片成功", data);
+        // 上传成功后，发送消息
+        let chatMessage = {
+          userId: this.user.userId,
+          roomId: this.activeRoom.groupId,
+          content: data.Location,
+          type: 'IMAGE',
+          time: now().valueOf()
+        }
+        this.$store.state.chat.stompClient.send('/app/groupMessage', {}, JSON.stringify(chatMessage));
+      }
+    });
+
+
+
+
     image.onload = () => {
       let imageSize: ImageSize = this.getImageSize({ width: image.width, height: image.height });
       this.sendMessage({
@@ -267,7 +304,7 @@ export default class GenalInput extends Vue {
         message: imageFile,
         width: imageSize.width,
         height: imageSize.height,
-        messageType: 'image',
+        messageType: 'IMAGE',
       });
     };
   }

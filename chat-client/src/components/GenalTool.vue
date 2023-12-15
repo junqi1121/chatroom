@@ -115,8 +115,8 @@
           />
           <span class="text">少女</span>
         </div>
-        <div class="recommend" @click="setBackground('https://picb.zhimg.com/v2-263525f6c912d300abfa0eed3acbfd4b_r.jpg')">
-          <img src="https://picb.zhimg.com/v2-263525f6c912d300abfa0eed3acbfd4b_r.jpg" alt="" />
+              <div class="recommend" @click="setBackground('https://junqi-image-1309597993.cos.ap-chengdu.myqcloud.com/image/202312151937337.jpg')">
+                  <img src="https://junqi-image-1309597993.cos.ap-chengdu.myqcloud.com/image/202312151937337.jpg" alt="" />
           <span class="text">猫咪</span>
         </div>
       </div>

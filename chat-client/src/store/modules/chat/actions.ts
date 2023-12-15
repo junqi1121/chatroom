@@ -40,7 +40,7 @@ const actions: ActionTree<ChatState, RootState> = {
         console.log('收到消息', msg);
         let groupMessage = JSON.parse(msg.body);
         console.log('收到消息', groupMessage);
-        // 依据groupMessage，生成interface GroupMessage
+
         let gm = {
           userId: groupMessage.userId,
           groupId: groupMessage.roomId,
