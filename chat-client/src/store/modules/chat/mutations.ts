@@ -136,6 +136,18 @@ const mutations: MutationTree<ChatState> = {
     // @ts-ignore
     Vue.set(state.activeRoom, 'messages', messages);
 
+    // 将这个群的群成员全部放在state.activeGroupUser中
+    let res2 = await fetch.get(`http://localhost:8080/users/ByRoomId/${payload.groupId}`);
+    console.log(res2);
+    let data2 = res2.data.data;
+    console.log('这个聊天室的群成员', data2);
+    let activeGroupUser = {
+      [payload.groupId]: data2
+    };
+    console.log(activeGroupUser);
+    // @ts-ignore
+    Vue.set(state, 'activeGroupUser', activeGroupUser);
+
 
   },
 

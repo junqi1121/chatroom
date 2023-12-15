@@ -2,7 +2,7 @@
   <div class="tool">
     <div class="tool-avatar">
       <div class="tool-avatar-img" @click="showUserInfo('showUserModal')">
-        <img v-if="user" :src="user.avatar" alt="" />
+          <img v-if="user" src="https://junqi-image-1309597993.cos.ap-chengdu.myqcloud.com/image/202312121638089.png" alt="" />
       </div>
       <div class="tool-avatar-name">{{ user.username }}</div>
     </div>

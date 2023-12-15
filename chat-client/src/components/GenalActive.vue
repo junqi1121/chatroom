@@ -12,7 +12,7 @@
       >
         <div class="active-content" v-if="activeGroupUser[activeRoom.groupId]">
           <div class="actiev-content-title">群聊管理</div>
-          <div class="active-content-sum">在线人数: {{ activeNum }}</div>
+            <div class="active-content-sum">群聊人数: {{ activeNum }}</div>
           <div class="active-content-users">
             <div class="active-content-user" v-for="data in activeGroupUser[activeRoom.groupId]" :key="data.userId">
               <genal-avatar :data="data" :showTime="false"></genal-avatar>
@@ -23,7 +23,7 @@
         </div>
       </a-drawer>
     </div>
-    
+
     <div v-else>
       <a-popconfirm title="确定要删除该好友吗？" placement="bottomRight" ok-text="Yes" cancel-text="No" @confirm="exitFriend">
         <a-icon type="user-delete" class="active-button" />
