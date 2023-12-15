@@ -1,7 +1,7 @@
 import Vue from 'vue';
 // import * as SockJS from 'sockjs-client';
 // import * as Stomp from 'stompjs';
-
+import fetch from '@/api/fetch';
 import {
   SET_SOCKET,
   SET_DROPPED,
@@ -52,11 +52,15 @@ const mutations: MutationTree<ChatState> = {
 
   // 新增一条群消息
   [ADD_GROUP_MESSAGE](state, payload: GroupMessage) {
+
+
     if (state.groupGather[payload.groupId].messages) {
-      // 如果群消息的列表已经存在, 直接push
-      // 这里的‘！’是告诉ts, 这个属性（payload)一定存在, 不然会报错
+      console.log('----ADD_GROUP_MESSAGE    111-----');
       state.groupGather[payload.groupId].messages!.push(payload);
+
     } else {
+      console.log('----ADD_GROUP_MESSAGE    222-----');
+
       // vuex对象数组中对象改变不更新问题
       Vue.set(state.groupGather[payload.groupId], 'messages', [payload]);
     }
@@ -102,23 +106,35 @@ const mutations: MutationTree<ChatState> = {
   },
 
   // 设置当前聊天对象(群或好友)
-  [SET_ACTIVE_ROOM](state, payload: Friend & Group) {
+  async [SET_ACTIVE_ROOM](state, payload: Friend & Group) {
     console.log('----SET_ACTIVE_ROOM-----');
     console.log(payload);
     state.activeRoom = payload;
     console.log('---当前聊天室---   state.activeRoom', state.activeRoom);
 
+    // http://localhost:8080/groupMessage/ByRoomId/{roomId}
+    // 获取历史消息放入state.activeRoom.messages
+    // 1. 从服务器获取历史消息
+    // 2. 将历史消息放入state.activeRoom.messages
+    let res = await fetch.get(`http://localhost:8080/groupMessage/ByRoomId/${payload.groupId}`);
+    console.log(res);
+    // 将res.data.data 中的消息放入state.activeRoom.messages
+    let data = res.data.data;
+    console.log(data);
+    let messages = data.map((item: any) => {
+      return {
+        userId: item.userId,
+        groupId: item.roomId,
+        content: item.content,
+        messageType: item.type,
+        time: item.time
+      }
+    }
+    );
 
-    //  连接上之后，订阅服务器的消息 todo！！！  回调函数为监听到服务器的消息之后的处理函数
-    if (state.stompClient == null) {
-      console.log("state.stompClient == null");
-    }
-    else {
-      state.stompClient.subscribe('/topic/' + payload.groupId, onMessageReceived);
-      // 输出一下订阅情况
-      console.log("订阅情况：/topic/" + payload.groupId);
-      console.log("SET_ACTIVE_ROOM    state.stompClient: " + state.stompClient);
-    }
+    console.log(messages);
+    // @ts-ignore
+    Vue.set(state.activeRoom, 'messages', messages);
 
 
   },

@@ -52,6 +52,8 @@ import { processReturn } from '@/utils/common.ts';
 import SockJS from 'sockjs-client';
 
 import Stomp from 'stompjs';
+import { now } from 'moment';
+import { message } from 'ant-design-vue';
 
 @Component({
   components: {
@@ -85,6 +87,16 @@ export default class GenalChat extends Vue {
   showModal: boolean = false;
   visibleDrawer: boolean = false;
   visibleTool: boolean = true;
+
+  //挂载时，建立websocket连接
+  mounted() {
+    console.log('GenalChat mounted');
+    // this.connectSocket();
+    this.$store.dispatch('chat/connectSocket');
+  }
+
+
+
 
   created() {
     console.log('GenalChat created');
@@ -122,6 +134,7 @@ export default class GenalChat extends Vue {
 
   // 进入系统初始化事件
   async handleJoin() {
+
     console.log('进入系统初始化事件');
     this.showModal = false;
     // this.connectSocket();
@@ -132,14 +145,10 @@ export default class GenalChat extends Vue {
     // let data = processReturn(res);
     let data = res.data.data;
     // 依据datae的数据结构，将data转换为groupGather
+
     let groupGather: GroupGather = {};
     console.log('handle Join  ----data', data);
-    // 一个data的结构的例子
-    //     // data:Array(2)
-    //     0 :
-    //     { roomId: 4, creatorId: 1, roomName: '聊天室测试1' }
-    //     1 :
-    //     { roomId: 5, creatorId: 1, roomName: '聊天室测试2' }
+
     for (let i = 0; i < data.length; i++) {
       let group: Group = {
         groupId: data[i].roomId,
@@ -147,15 +156,32 @@ export default class GenalChat extends Vue {
         groupName: data[i].roomName,
       }
       groupGather[group.groupId] = group;
+      // 依据群id，获取群成员列表，将其中的每个成员都设置到userGather中
+      let res2 = await fetch.get(`http://localhost:8080/users/ByRoomId/${group.groupId}`);
+      console.log('获取群成员列表  ------  res2', res2);
+      let data2 = res2.data.data;
+      console.log('获取群成员列表  ------  data2', data2);
+      for (let j = 0; j < data2.length; j++) {
+        let user: User = {
+          userId: data2[j].userId,
+          username: data2[j].userName,
+          password: data2[j].userPwd,
+          avatar: "https://junqi-image-1309597993.cos.ap-chengdu.myqcloud.com/image/202312121638089.png",
+          createTime: 0
+        }
+        this.$store.commit('chat/set_user_gather', user);
+      }
     }
 
-    console.log('groupGather', groupGather);
+    console.log('groupGather 初始化处理！！！', groupGather);
     this.$store.commit('chat/set_group_gather', groupGather);
     //输出一下state中的groupGather，看看是否正确
-    console.log('this.$store.state.chat.groupGather', this.$store.state.chat.groupGather);
-    let sscoket = new SockJS('http://localhost:8080/ws');
-    // 设置chatstate中的stompClient
-    this.$store.commit('chat/set_stomp_client', Stomp.over(sscoket));
+    console.log('this.$store.state.chat.groupGather  groupGather设置好了吗？', this.$store.state.chat.groupGather);
+
+    // 输出一下 state中的 groupGather[1]
+    // console.log('this.$store.state.chat.groupGather[1]  groupGather设置好了吗？', this.$store.state.chat.groupGather[1]);
+
+
 
   }
 

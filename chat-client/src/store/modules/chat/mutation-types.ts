@@ -1,4 +1,5 @@
 export const SET_SOCKET = 'set_socket';
+export const SET_STOMP_CLIENT = 'set_stomp_client';
 export const SET_DROPPED = 'set_dropped';
 export const SET_ACTIVE_GROUP_USER = 'set_active_group_user';
 export const SET_ACTIVE_ROOM = 'set_active_room';
@@ -13,4 +14,3 @@ export const DEL_GROUP = 'del_group';
 export const DEL_FRIEND = 'del_friend';
 export const ADD_UNREAD_GATHER = 'set_unread_gather';
 export const LOSE_UNREAD_GATHER = 'lose_unread_gather';
-export const SET_STOMP_CLIENT = 'set_stomp_client';

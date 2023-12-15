@@ -14,8 +14,7 @@ export function getGroupsByName(groupName: string) {
  * 群分页消息
  * @param params
  */
-export async function getGroupMessages(params: PagingParams) {
-  return await fetch.get(`/group/groupMessages`, {
-    params,
-  });
+export async function getGroupMessages(groupId: string) {
+  console.log("----getGroupMessages-----", groupId);
+  return await fetch.get(`http://localhost:8080/groupMessage/ByRoomId/${groupId}`);
 }
