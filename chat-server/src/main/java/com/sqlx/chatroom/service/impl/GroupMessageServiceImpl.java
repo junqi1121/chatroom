@@ -43,7 +43,7 @@ public class GroupMessageServiceImpl implements GroupMessageService {
     public Result insertGroupMessageIntoChatroom(GroupMessage groupMessage){
         try {
             groupMessageMapper.insertGroupMessageIntoChatroom(groupMessage);
-            messagingTemplate.convertAndSend("/topic/" + groupMessage.getRoomId(), groupMessage);
+            messagingTemplate.convertAndSend("/topic", groupMessage);
             return Result.success();
         } catch (Exception e) {
             log.error("!!!!!!!!!!!!!!!");
