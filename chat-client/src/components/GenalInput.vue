@@ -271,8 +271,8 @@ export default class GenalInput extends Vue {
 
 
     const cosParams = {
-      Bucket: 'junqi-image-1309597993', // 示例: 'examplebucket-1250000000'
-      Region: 'ap-chengdu',       // 示例: 'ap-guangzhou'
+      Bucket: '', // 示例: 'examplebucket-1250000000'
+      Region: '',       // 示例: 'ap-guangzhou'
       Key: '研究与开发实践/' + imageFile.name, // 示例: 'images/myphoto.png'
       Body: imageFile
     };
